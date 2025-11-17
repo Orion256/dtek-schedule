@@ -6,6 +6,7 @@ import {
   getCurrentTime,
   loadLastMessage,
   saveLastMessage,
+  deleteLastMessage,
   useSchedule,
 } from "./helpers.js"
 import {

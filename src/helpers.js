@@ -96,6 +96,6 @@ export function saveLastMessage({ date, message_id } = {}) {
   )
 }
 
-function deleteLastMessage() {
+export function deleteLastMessage() {
   fs.rmdirSync(path.dirname(LAST_MESSAGE_FILE), { recursive: true })
 }
