@@ -1,4 +1,4 @@
-щname: Send tomorrow's power outage schedule
+name: Send tomorrow's power outage schedule
 
 on:
   schedule:
