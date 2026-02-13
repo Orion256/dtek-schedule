@@ -1,4 +1,4 @@
-name: Send tomorrow's power outage schedule
+щname: Send tomorrow's power outage schedule
 
 on:
   schedule:
@@ -31,7 +31,8 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           REGION: ${{ secrets.REGION }}
-          CITY: ${{ secrets.CITY }}
-          STREET: ${{ secrets.STREET }}
-          HOUSE: ${{ secrets.HOUSE }}
+          GROUP: ${{ secrets.GROUP }}
+          #CITY: ${{ secrets.CITY }}
+          #//STREET: ${{ secrets.STREET }}
+          #HOUSE: ${{ secrets.HOUSE }}
         run: node ./src/tomorrow-schedule.js
