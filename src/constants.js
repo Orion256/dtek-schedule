@@ -31,3 +31,30 @@ export const LAST_MESSAGE_FILE = path.resolve("artifacts", `last-message.json`)
 
 export const RETRIES_MAX_COUNT = 5
 export const RETRIES_TIMEOUT = 5000
+
+#my
+
+// Добавьте в конец файла:
+
+// URL для графика на завтра
+export const SHUTDOWNS_TOMORROW_PAGE = (() => {
+  switch(process.env.REGION) {
+    case 'k': return 'https://www.dtek-kem.com.ua/ua/shutdowns?tab=tomorrow'
+    case 'kr': return 'https://www.dtek-krem.com.ua/ua/shutdowns?tab=tomorrow'
+    case 'dn': return 'https://www.dtek-dnem.com.ua/ua/shutdowns?tab=tomorrow'
+    case 'o': return 'https://www.dtek-oem.com.ua/ua/shutdowns?tab=tomorrow'
+    case 'd': return 'https://www.dtek-donetsk.com.ua/ua/shutdowns?tab=tomorrow'
+    default: return 'https://www.dtek-dnem.com.ua/ua/shutdowns?tab=tomorrow'
+  }
+})()
+
+// Дни недели на украинском
+export const WEEKDAYS = {
+  0: 'неділя',
+  1: 'понеділок',
+  2: 'вівторок',
+  3: 'середа',
+  4: 'четвер',
+  5: 'пʼятниця',
+  6: 'субота'
+}
