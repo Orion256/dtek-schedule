@@ -3,7 +3,7 @@ name: Send tomorrow's power outage schedule
 on:
   schedule:
     # Отправка в 18:00 UTC = 20:00 Киев
-    - cron: "0 * * * *"
+    - cron: "0/15 * * * *"
   workflow_dispatch:
 
 jobs:
