@@ -32,9 +32,7 @@ export const LAST_MESSAGE_FILE = path.resolve("artifacts", `last-message.json`)
 export const RETRIES_MAX_COUNT = 5
 export const RETRIES_TIMEOUT = 5000
 
-#my
-
-// Добавьте в конец файла:
+//my
 
 // URL для графика на завтра
 export const SHUTDOWNS_TOMORROW_PAGE = (() => {
