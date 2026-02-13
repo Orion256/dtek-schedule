@@ -1,14 +1,13 @@
 import { chromium } from "playwright"
-import {
-  getCurrentTime,
-  TELEGRAM_BOT_TOKEN,
-  TELEGRAM_CHAT_ID,
-  RETRIES_TIMEOUT,
+import { 
+  TELEGRAM_BOT_TOKEN, 
+  TELEGRAM_CHAT_ID, 
+  RETRIES_TIMEOUT, 
   RETRIES_MAX_COUNT,
+  SHUTDOWNS_TOMORROW_PAGE,
+  GROUP
 } from "./constants.js"
-
-// Добавьте в constants.js новую константу:
-// export const SHUTDOWNS_TOMORROW_PAGE = 'https://www.dtek-dnem.com.ua/ua/shutdowns?tab=tomorrow'
+import { getCurrentTime } from "./helpers.js"
 
 let getTomorrowDataRetries = 0
 
