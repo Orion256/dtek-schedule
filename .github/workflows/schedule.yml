@@ -1,49 +1,4 @@
-name: Run power outages schedule generator
-
-on:
-  schedule:
-    - cron: "0 * * * *"
-  workflow_dispatch:
-  repository_dispatch:
-    types: [check-schedule]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
-
-permissions:
-  contents: write
-  actions: write
-
-jobs:
-  monitor:
-    name: monitor${{ matrix.target && format(' ({0})', matrix.target) || '' }}
-    #runs-on: ubuntu-latest
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      max-parallel: 1
-      matrix:
-        target: ${{ fromJSON(vars.TARGETS || '[""]') }}
-    environment: ${{ matrix.target || null }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-
-      - name: Checkout artifacts
-        run: |
-          REMOTE_BRANCH=$(git ls-remote --heads origin artifacts)
-
-          if [ -n "$REMOTE_BRANCH" ]; then
-            git fetch --depth 1 origin artifacts
-            git worktree add --detach artifacts FETCH_HEAD
-          else
-            git worktree add --orphan -b artifacts artifacts
-          fi
-
-      - name: Set up Node.js
+- name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version-file: ".nvmrc"
@@ -56,43 +11,7 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: |
-          npm ci
-          env:
-            PLAYWRIGHT_HOST_PLATFORM_OVERRIDE: ubuntu24.04-x64
-          npx playwright install --with-deps chromium
+        run: npm ci
 
-      - name: Run schedule generation script
-        env:
-          TARGET: ${{ matrix.target }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          REGION: ${{ secrets.REGION }}
-          GROUP: ${{ secrets.GROUP }}
-        run: node ./src/schedule.js
-
-      - name: Commit updated artifacts
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-          git -C artifacts add --all
-
-          if git -C artifacts diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-
-          if git -C artifacts rev-parse --verify --quiet HEAD; then
-            git -C artifacts commit --amend --no-edit
-          else
-            git -C artifacts commit -m "chore: update artifacts"
-          fi
-
-          git push --force origin "$(git -C artifacts rev-parse HEAD):refs/heads/artifacts"
-
-      - name: Keep workflow enabled
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh api --method PUT "repos/$GITHUB_REPOSITORY/actions/workflows/schedule.yml/enable"
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
