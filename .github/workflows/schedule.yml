@@ -58,7 +58,9 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npx playwright install chromium
+          env:
+            PLAYWRIGHT_HOST_PLATFORM_OVERRIDE: ubuntu24.04-x64
+          npx playwright install --with-deps chromium
 
       - name: Run schedule generation script
         env:
