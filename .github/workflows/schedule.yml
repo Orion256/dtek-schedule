@@ -34,9 +34,9 @@ jobs:
 
     name: monitor${{ matrix.target && format(' ({0})', matrix.target) || '' }}
 
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
 
-    #runs-on: ubuntu-24.04
+    runs-on: ubuntu-24.04
 
     timeout-minutes: 10
 
@@ -104,7 +104,7 @@ jobs:
 
       - name: Install dependencies
 
-        run: |
+        #run: |
 
           npm ci
 
